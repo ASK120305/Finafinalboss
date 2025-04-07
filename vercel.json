@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "client/build",
+  "installCommand": "npm install",
   "builds": [
     {
       "src": "server/server.js",
@@ -20,8 +23,11 @@
       "dest": "/server/server.js"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/client/build/$1"
+      "dest": "/client/build/index.html"
     }
   ],
   "env": {

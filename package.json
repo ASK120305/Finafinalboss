@@ -5,10 +5,10 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "build": "cd client && npm install && npm run build",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
     "server": "cd server && npm install && npm start",
     "client": "cd client && npm start",
-    "vercel-build": "cd client && npm install && npm run build"
+    "vercel-build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "engines": {
     "node": ">=14.0.0"
