@@ -1,0 +1,16 @@
+{
+  "name": "college-buddy",
+  "version": "1.0.0",
+  "description": "College Buddy - A MERN Stack Application",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "cd client && npm install && npm run build",
+    "server": "cd server && npm install && npm start",
+    "client": "cd client && npm start",
+    "vercel-build": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
