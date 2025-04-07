@@ -17,7 +17,9 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Button
+    Button,
+    useMediaQuery,
+    useTheme
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
@@ -31,18 +33,31 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
     borderRadius: '12px',
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.3)',
+    margin: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+        margin: theme.spacing(1),
+        maxHeight: 'calc(100vh - 200px)',
+    },
     '& .MuiTableCell-head': {
         backgroundColor: '#1976d2',
         color: '#ffffff',
         fontWeight: 'bold',
         fontSize: '1rem',
-        borderBottom: '2px solid rgba(255, 255, 255, 0.2)'
+        borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.875rem',
+            padding: '8px',
+        },
     },
     '& .MuiTableCell-body': {
         color: '#000000',
         fontSize: '0.95rem',
         fontWeight: 500,
-        borderBottom: '1px solid rgba(0, 0, 0, 0.1)'
+        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '0.8rem',
+            padding: '8px',
+        },
     },
     '& .MuiTableRow-root:hover': {
         backgroundColor: 'rgba(25, 118, 210, 0.08)',
@@ -56,6 +71,8 @@ const UserManagement = () => {
     const [error, setError] = useState('');
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         fetchUsers();
@@ -142,13 +159,26 @@ const UserManagement = () => {
     }
 
     return (
-        <Box>
-            <Typography variant="h5" gutterBottom sx={{ mb: 3, color: '#000000', fontWeight: 'bold' }}>
+        <Box sx={{ 
+            p: isMobile ? 1 : 3,
+            maxWidth: '100%',
+            overflowX: 'auto'
+        }}>
+            <Typography 
+                variant="h5" 
+                gutterBottom 
+                sx={{ 
+                    mb: 3, 
+                    color: '#000000', 
+                    fontWeight: 'bold',
+                    fontSize: isMobile ? '1.25rem' : '1.5rem'
+                }}
+            >
                 User Management
             </Typography>
 
             <StyledTableContainer component={Paper}>
-                <Table stickyHeader>
+                <Table stickyHeader size={isMobile ? "small" : "medium"}>
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
@@ -165,25 +195,44 @@ const UserManagement = () => {
                                 <TableCell>
                                     <Box display="flex" alignItems="center" gap={1}>
                                         {user.role === 'admin' ? (
-                                            <AdminPanelSettingsIcon sx={{ color: '#1976d2' }} />
+                                            <AdminPanelSettingsIcon sx={{ 
+                                                color: '#1976d2',
+                                                fontSize: isMobile ? '1rem' : '1.25rem'
+                                            }} />
                                         ) : (
-                                            <PersonIcon sx={{ color: '#666666' }} />
+                                            <PersonIcon sx={{ 
+                                                color: '#666666',
+                                                fontSize: isMobile ? '1rem' : '1.25rem'
+                                            }} />
                                         )}
-                                        <span style={{ color: '#000000', fontWeight: 500 }}>{user.name}</span>
+                                        <span style={{ 
+                                            color: '#000000', 
+                                            fontWeight: 500,
+                                            fontSize: isMobile ? '0.8rem' : '0.95rem'
+                                        }}>
+                                            {user.name}
+                                        </span>
                                     </Box>
                                 </TableCell>
-                                <TableCell style={{ color: '#000000', fontWeight: 500 }}>{user.email}</TableCell>
+                                <TableCell style={{ 
+                                    color: '#000000', 
+                                    fontWeight: 500,
+                                    fontSize: isMobile ? '0.8rem' : '0.95rem'
+                                }}>
+                                    {user.email}
+                                </TableCell>
                                 <TableCell>
                                     <Chip
                                         label={user.role}
                                         color={user.role === 'admin' ? 'primary' : 'default'}
-                                        size="small"
+                                        size={isMobile ? "small" : "medium"}
                                         sx={{
                                             backgroundColor: user.role === 'admin' 
                                                 ? '#1976d2' 
                                                 : '#f5f5f5',
                                             color: user.role === 'admin' ? '#ffffff' : '#000000',
-                                            fontWeight: 'medium'
+                                            fontWeight: 'medium',
+                                            fontSize: isMobile ? '0.7rem' : '0.875rem'
                                         }}
                                     />
                                 </TableCell>
@@ -191,17 +240,22 @@ const UserManagement = () => {
                                     <Chip
                                         label={user.active ? 'Active' : 'Inactive'}
                                         color={user.active ? 'success' : 'error'}
-                                        size="small"
+                                        size={isMobile ? "small" : "medium"}
                                         sx={{
                                             backgroundColor: user.active 
                                                 ? '#4caf50' 
                                                 : '#f44336',
                                             color: '#ffffff',
-                                            fontWeight: 'medium'
+                                            fontWeight: 'medium',
+                                            fontSize: isMobile ? '0.7rem' : '0.875rem'
                                         }}
                                     />
                                 </TableCell>
-                                <TableCell style={{ color: '#000000', fontWeight: 500 }}>
+                                <TableCell style={{ 
+                                    color: '#000000', 
+                                    fontWeight: 500,
+                                    fontSize: isMobile ? '0.8rem' : '0.95rem'
+                                }}>
                                     {user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}
                                 </TableCell>
                                 <TableCell align="center">
@@ -209,10 +263,10 @@ const UserManagement = () => {
                                         <IconButton 
                                             onClick={() => handleDeleteClick(user)}
                                             color="error"
-                                            size="small"
+                                            size={isMobile ? "small" : "medium"}
                                             title="Delete User"
                                         >
-                                            <DeleteIcon />
+                                            <DeleteIcon fontSize={isMobile ? "small" : "medium"} />
                                         </IconButton>
                                     )}
                                 </TableCell>
@@ -226,6 +280,7 @@ const UserManagement = () => {
                 open={deleteDialogOpen}
                 onClose={handleDeleteCancel}
                 aria-labelledby="delete-dialog-title"
+                fullScreen={isMobile}
             >
                 <DialogTitle id="delete-dialog-title" sx={{ color: '#000000' }}>
                     Confirm Delete User

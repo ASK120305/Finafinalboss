@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery, useTheme } from '@mui/material';
 import './StudentDashboard.css';
 import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 
 const StudentDashboard = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -63,7 +66,7 @@ const StudentDashboard = () => {
     return (
         <div className="student-dashboard">
             {/* Navigation Bar */}
-            <nav className="navbar">
+            <nav className={`navbar ${isMobile ? 'mobile' : ''}`}>
                 <div className="nav-left">
                     <h1 
                         onClick={handleLogoClick}
@@ -73,7 +76,7 @@ const StudentDashboard = () => {
                         College Buddy
                     </h1>
                 </div>
-                <div className="nav-center">
+                <div className={`nav-center ${isMobile ? 'mobile' : ''}`}>
                     {features.map((feature) => (
                         <button 
                             key={feature.name} 
@@ -131,7 +134,7 @@ const StudentDashboard = () => {
             <div className="features-container">
                 <h2 className="features-heading">Discover What We Offer</h2>
                 <p className="features-intro">Explore our comprehensive suite of services designed to make your campus life easier and more organized.</p>
-                <div className="features-grid">
+                <div className={`features-grid ${isMobile ? 'mobile' : ''}`}>
                     {features.map((feature) => (
                         <div 
                             key={feature.name} 
@@ -155,7 +158,7 @@ const StudentDashboard = () => {
             <div className="team-section">
                 <h2 className="team-heading">Meet Our Team</h2>
                 <p className="team-intro">The brilliant minds behind College Buddy</p>
-                <div className="team-grid">
+                <div className={`team-grid ${isMobile ? 'mobile' : ''}`}>
                     <div className="team-member">
                         <div className="member-image">
                             <img src="/images/harshvardhan.jpg" alt="Harshvardhan Chinchkhedkar" />
